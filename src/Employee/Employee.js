@@ -9,13 +9,11 @@ const Employee = (props) => {
     >
       <div className="card-header">Name: {props.emplyees.firstName} {props.employees.lastName}</div>
       <div className="card-body">
-        <p className="card-text">Favorite Movie: {props.user.movie}</p>
-        <p className="card-text">Favorite Song: {props.user.song}</p>
-        <p className="card-text">Favorite Food: {props.user.food}</p>
-        <p className="card-text">Favorite Game: {props.user.game}</p>
+        <p className="card-text">Email: {props.employee.movie}</p>
+        <p className="card-text">Id: {props.employee.song}</p>
       </div>
     </div>
   );
 };
 
-export default User;
+export default Employee;
