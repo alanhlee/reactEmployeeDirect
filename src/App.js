@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import Form from './components/Form'
+import Employee from './components/Employee'
+
 
 class App extends Component {
   state = {
@@ -18,10 +20,10 @@ class App extends Component {
     let employees = JSON.parse(JSON.stringify(this.state.employees));
 
     employees.push({
-      firstName: this.state.name,
-      lastName: this.state.movie,
-      email: this.state.song,
-      id: this.state.food,
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      email: this.state.email,
+      id: this.state.id,
     });
 
     this.setState({
@@ -35,8 +37,18 @@ class App extends Component {
   render() {
     return (
       <>
-      <Form />
-        <h1>hello world</h1>
+        <Form
+          firstName={this.state.firstName}
+          lastName={this.state.lastName}
+          email={this.state.email}
+          id={this.state.id}
+
+          handleInputChange={this.handleInputChange}
+          handleSubmit={this.handleSubmit}
+        />
+        {this.state.employees.map((employee) => (
+          <Employee employee={employee} />
+        ))}
       </>
     );
   }
