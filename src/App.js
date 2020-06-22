@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import Form from './components/Form'
-import Employee from './components/Employee'
-
+// import Form from './components/Form'
+import Employee from "./components/Employee";
+import Axios from "axios";
 
 class App extends Component {
   state = {
@@ -31,13 +31,50 @@ class App extends Component {
       firstName: "",
       lastName: "",
       email: "",
-      id: ""
-    })
+      id: "",
+    });
   };
+  componentDidMount() {
+    Axios.get("/users.json")
+      .then(({ data }) => {
+        console.log(data);
+        this.setState({ employees: data });
+      })
+      .catch((err) => console.error(err));
+  }
+  sortByLastNameA() {
+    this.setState({
+      employees: this.state.employees.sort((employee, employee2) => {
+        if (employee.last_name < employee2.last_name) {
+          return -1;
+        } else if (employee.last_name > employee2.last_name) {
+          return 1;
+        } else {
+          return 0;
+        }
+      }),
+    })
+  }
+  sortByLastNameD() {
+    this.setState({
+      employees: this.state.employees.sort((employee, employee2) => {
+        if (employee.last_name < employee2.last_name) {
+          return 1;
+        } else if (employee.last_name > employee2.last_name) {
+          return -1;
+        } else {
+          return 0;
+        }
+      }),
+    })
+  }
+
   render() {
     return (
       <>
-        <Form
+        <button onClick={() => this.sortByLastNameA()}>Sort by last name ascending</button>
+        <button onClick={() => this.sortByLastNameD()}>Sort by last name descending</button>
+        {/* <Form
           firstName={this.state.firstName}
           lastName={this.state.lastName}
           email={this.state.email}
@@ -45,10 +82,30 @@ class App extends Component {
 
           handleInputChange={this.handleInputChange}
           handleSubmit={this.handleSubmit}
-        />
-        {this.state.employees.map((employee) => (
-          <Employee employee={employee} />
-        ))}
+        /> */}
+        <table>
+          <thead>
+            <tr>
+              <th>
+                First Name
+              </th>
+              <th>
+                Last Name
+              </th>
+              <th>
+                Email
+              </th>
+              <th>
+                ID
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.state.employees.map((employee) => (
+              <Employee key={employee.id} employee={employee} />
+            ))}
+          </tbody>
+        </table>
       </>
     );
   }
