@@ -5,35 +5,32 @@ import Axios from "axios";
 
 class App extends Component {
   state = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    id: 0,
+    last_name: "",
     employees: [],
   };
   handleInputChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   };
-  handleSubmit = (event) => {
-    event.preventDefault();
+  // handleSubmit = (event) => {
+  //   event.preventDefault();
 
-    let employees = JSON.parse(JSON.stringify(this.state.employees));
+  //   let employees = JSON.parse(JSON.stringify(this.state.employees));
 
-    employees.push({
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      email: this.state.email,
-      id: this.state.id,
-    });
+  //   employees.push({
+  //     firstName: this.state.firstName,
+  //     lastName: this.state.lastName,
+  //     email: this.state.email,
+  //     id: this.state.id,
+  //   });
 
-    this.setState({
-      employees,
-      firstName: "",
-      lastName: "",
-      email: "",
-      id: "",
-    });
-  };
+  //   this.setState({
+  //     employees,
+  //     firstName: "",
+  //     lastName: "",
+  //     email: "",
+  //     id: "",
+  //   });
+  // };
   componentDidMount() {
     Axios.get("/users.json")
       .then(({ data }) => {
@@ -72,8 +69,16 @@ class App extends Component {
   render() {
     return (
       <>
+      <p>
         <button onClick={() => this.sortByLastNameA()}>Sort by last name ascending</button>
+      </p>
+      <p>
         <button onClick={() => this.sortByLastNameD()}>Sort by last name descending</button>
+      </p>
+      <label htmlFor="filter">Filter by Last Name: </label>
+      <input type="text" 
+      value={this.state.last_name} 
+      onChange={e => this.setState({last_name: e.target.value})} />
         {/* <Form
           firstName={this.state.firstName}
           lastName={this.state.lastName}
@@ -101,7 +106,9 @@ class App extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.employees.map((employee) => (
+            {this.state.employees.filter(employee => {
+              return employee.last_name.toUpperCase().includes(this.state.last_name.toUpperCase())
+            }).map((employee) => (
               <Employee key={employee.id} employee={employee} />
             ))}
           </tbody>
