@@ -32,7 +32,7 @@ class App extends Component {
   //   });
   // };
   componentDidMount() {
-    Axios.get("/users.json")
+    Axios.get("users.json")
       .then(({ data }) => {
         console.log(data);
         this.setState({ employees: data });
